@@ -1,8 +1,20 @@
-# No imports used.
+try:
+    from diabetes_gui import none
+except Exception:
+    window = None
 
 FEATURE_COUNT = 8
 DEFAULT_CSV_PATH = "diabetes.csv"
-
+FEATURE_LABELS = [
+    "Pregnancy",
+    "Glucose",
+    "BloodPressure",
+    "SkinThickness",
+    "Insulin",
+    "BMI",
+    "DiabetesPedigreeFunction",
+    "Age",
+]
 
 def _try_float(text):
     try:
@@ -152,49 +164,45 @@ def predict(m_list, b, threshold, x_instance):
     return 1 if score >= threshold else 0
 
 
-def _parse_instance(line):
-    line = line.strip()
-    if line == "":
+def build_runtime_model(path=DEFAULT_CSV_PATH):
+    data = read_csv(path)
+    if len(data) == 0:
         return None
 
-    line = line.replace(",", " ")
-    parts = line.split()
-
-    values = []
-    i = 0
-    while i < len(parts):
-        v = _try_float(parts[i])
-        if v is not None:
-            values.append(v)
-            if len(values) == FEATURE_COUNT:
-                break
-        i += 1
-
-    if len(values) != FEATURE_COUNT:
-        return None
-    return values
+    stats = analyze(data)
+    return derive_weights(stats)
 
 
 def main():
-    # Input line: 8 feature values (space or comma separated)
-    try:
-        instance_line = input()
-    except Exception:
+    model = build_runtime_model()
+    if model is None:
         return
 
-    data = read_csv()
-    if len(data) == 0:
+    m_list, b, threshold = model
+
+    def gui_predictor(x_instance):
+        return predict(m_list, b, threshold, x_instance)
+
+    if window is not None:
+        window(FEATURE_LABELS, gui_predictor)
         return
 
-    x_instance = _parse_instance(instance_line)
-    if x_instance is None:
-        return
+    x_instance = []
+    i = 0
+    while i < FEATURE_COUNT:
+        try:
+            raw_value = input(FEATURE_LABELS[i] + ": ")
+        except Exception:
+            return
 
-    stats = analyze(data)
-    m_list, b, threshold = derive_weights(stats)
+        value = _try_float(raw_value.strip())
+        if value is None:
+            return
+
+        x_instance.append(value)
+        i += 1
+
     y = predict(m_list, b, threshold, x_instance)
-
-    # Final output line must be only 1 or 0.
     print(y)
 
 
