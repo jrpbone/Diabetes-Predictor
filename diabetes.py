@@ -1,8 +1,10 @@
+# Try catch for import options
 try:
-    from diabetes_gui import none
+    from diabetes_gui import window
 except Exception:
     window = None
 
+#Global vars
 FEATURE_COUNT = 8
 DEFAULT_CSV_PATH = "diabetes.csv"
 FEATURE_LABELS = [
@@ -16,6 +18,7 @@ FEATURE_LABELS = [
     "Age",
 ]
 
+# helper function for float
 def _try_float(text):
     try:
         return float(text)
@@ -23,7 +26,28 @@ def _try_float(text):
         return None
 
 
-def read_csv(path=DEFAULT_CSV_PATH):
+def _approximate_exp(value):
+    if value > 60:
+        value = 60
+    elif value < -60:
+        value = -60
+
+    total = 1.0
+    term = 1.0
+    n = 1
+    while n <= 40:
+        term = term * value / n
+        total += term
+        n += 1
+
+    return total
+
+
+def _sigmoid(value):
+    return 1.0 / (1.0 + _approximate_exp(-value))
+
+# read csv file
+def read_csv(path=DEFAULT_CSV_PATH):                            #path leads to the csv file global var
     data = []
     try:
         with open(path, "r", encoding="utf-8") as f:
@@ -55,7 +79,7 @@ def read_csv(path=DEFAULT_CSV_PATH):
     return data
 
 
-def analyze(data):
+def analyze(data):                                              #data from read_csv goes through here
     stats = {
         "count": 0,
         "mins": [0.0] * FEATURE_COUNT,
@@ -164,6 +188,20 @@ def predict(m_list, b, threshold, x_instance):
     return 1 if score >= threshold else 0
 
 
+def predict_with_context(m_list, b, threshold, x_instance):
+    score = b
+    j = 0
+    while j < FEATURE_COUNT:
+        score += m_list[j] * x_instance[j]
+        j += 1
+
+    label = 1 if score >= threshold else 0
+    # Convert distance from threshold to a 0-100 likelihood score.
+    likelihood_percent = _sigmoid(score - threshold) * 100.0
+
+    return label, likelihood_percent
+
+
 def build_runtime_model(path=DEFAULT_CSV_PATH):
     data = read_csv(path)
     if len(data) == 0:
@@ -181,7 +219,7 @@ def main():
     m_list, b, threshold = model
 
     def gui_predictor(x_instance):
-        return predict(m_list, b, threshold, x_instance)
+        return predict_with_context(m_list, b, threshold, x_instance)
 
     if window is not None:
         window(FEATURE_LABELS, gui_predictor)
