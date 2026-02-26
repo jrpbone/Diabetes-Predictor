@@ -1,6 +1,17 @@
 import tkinter as tk
 from tkinter import messagebox
 
+PLACEHOLDER_VALUES = [
+    "6",
+    "148",
+    "72",
+    "35",
+    "0",
+    "33.6",
+    "0.627",
+    "50",
+]
+
 
 def window(feature_labels, predict_callback):
     root = tk.Tk()
@@ -25,6 +36,8 @@ def window(feature_labels, predict_callback):
 
         entry = tk.Entry(form, width=24)
         entry.grid(row=row_index, column=1, sticky="w", pady=4)
+        if row_index < len(PLACEHOLDER_VALUES):
+            entry.insert(0, PLACEHOLDER_VALUES[row_index])
         entries.append(entry)
         row_index += 1
 
