@@ -2,9 +2,8 @@
 #This codebase can run either:
 # 1. with a GUI (diabetes_gui.window), or
 # 2. as a command-line program.
-#If the GUI module isn't available, it falls back to CLI input.
 try:
-    from diabetes_gui import window
+    from diabetes_gui import window #change to none to have it in cli mode inputs
 except Exception:
     window = None
 

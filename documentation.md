@@ -51,9 +51,11 @@ except Exception:
 ```
 
 ### Purpose
+
 Allows the program to run with a GUI if available, otherwise default to CLI mode.
 
 ### Behavior
+
 - If import succeeds → GUI mode available.
 - If import fails → `window` is set to `None` and CLI mode is used.
 
@@ -77,7 +79,7 @@ DEFAULT_CSV_PATH = "diabetes.csv"
 
 ### `try_float(text)`
 
-**Input:** string  
+**Input:** string
 **Output:** float or `None`
 
 Safely converts a string into a float. If conversion fails, returns `None` instead of raising an exception.
@@ -118,9 +120,11 @@ Used only for generating a smooth "likelihood percentage".
 ## 5. `read_csv(path)`
 
 ### Input
+
 Path to CSV file.
 
 ### Output
+
 ```
 List[List[float]]
 ```
@@ -128,6 +132,7 @@ List[List[float]]
 Each row contains exactly 8 numeric feature values.
 
 ### Process
+
 1. Read file line by line.
 2. Split each line by comma.
 3. Convert values using `try_float()`.
@@ -137,11 +142,13 @@ Each row contains exactly 8 numeric feature values.
 ### Transformation Example
 
 Raw CSV line:
+
 ```
 6,148,72,35,0,33.6,0.627,50,1
 ```
 
 Becomes:
+
 ```
 [6.0, 148.0, 72.0, 35.0, 0.0, 33.6, 0.627, 50.0]
 ```
@@ -151,12 +158,15 @@ Becomes:
 ## 6. `analyze(data)`
 
 ### Input
+
 ```
 List[List[float]]
 ```
 
 ### Output
+
 Dictionary containing:
+
 - count
 - mins
 - maxs
@@ -167,14 +177,17 @@ Dictionary containing:
 ### Process
 
 First Pass:
+
 - Compute sums
 - Compute per-feature min/max
 
 Second Pass:
+
 - Compute variance sums
 - Compute standard deviations
 
 ### Purpose
+
 Transforms raw rows into statistical summaries of the dataset.
 
 ---
@@ -182,14 +195,17 @@ Transforms raw rows into statistical summaries of the dataset.
 ## 7. `derive_weights(stats)`
 
 ### Input
+
 Statistics dictionary
 
 ### Output
+
 ```
 (m_list, b, threshold)
 ```
 
 Where:
+
 - `m_list` = feature weights
 - `b` = bias
 - `threshold` = 0.5
@@ -225,6 +241,7 @@ b = threshold - avg_score
 ## 8. `predict(m_list, b, threshold, x_instance)`
 
 ### Input
+
 - Model parameters
 - One sample with 8 features
 
@@ -237,6 +254,7 @@ score = b + Σ(weight[j] * x[j])
 ```
 
 ### Output
+
 - `1` if score >= threshold
 - `0` otherwise
 
@@ -287,46 +305,3 @@ Returns model parameters or `None` if dataset cannot be loaded.
 3. If GUI exists → launch GUI.
 4. Otherwise → prompt user for 8 inputs via CLI.
 5. Run prediction and print result.
-
----
-
-# Known Issue
-
-In CLI mode:
-
-```
-value = _try_float(raw_value.strip())
-```
-
-Should be:
-
-```
-value = try_float(raw_value.strip())
-```
-
-Otherwise a `NameError` will occur.
-
----
-
-# Important Notes
-
-- This is **not** a trained machine learning model.
-- No outcome labels are used.
-- Weights are derived purely from feature ranges.
-- It behaves like a normalized linear scoring heuristic.
-
----
-
-# Summary
-
-This system:
-
-- Loads dataset
-- Extracts numeric rows
-- Computes descriptive statistics
-- Derives feature weights from ranges
-- Applies a linear scoring rule
-- Optionally produces a sigmoid-based likelihood percentage
-
-It demonstrates a full data pipeline from CSV ingestion to runtime prediction while remaining dependency-light and GUI-optional.
-
