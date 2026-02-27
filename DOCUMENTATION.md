@@ -88,7 +88,7 @@ This prevents crashes while reading CSV data.
 
 ---
 
-## 4. Math Helpers
+## 4. Math Helper
 
 ### `approximate_exp(value)`
 
