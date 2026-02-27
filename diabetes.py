@@ -320,16 +320,18 @@ def main():
     x_instance = []
     i = 0
     while i < FEATURE_COUNT:
+
         try:
             raw_value = input(FEATURE_LABELS[i] + ": ")
         except Exception:
             return
 
         value = try_float(raw_value.strip())
+
         if value is None:
             # Invalid input => quit (could be improved with re-prompt).
             return
-
+        
         x_instance.append(value)
         i += 1
 
