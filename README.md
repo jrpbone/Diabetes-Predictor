@@ -3,13 +3,10 @@
 
   # Diabetes Predictor
 
-  **A polished desktop interface for exploring a lightweight, dataset-derived diabetes risk indicator.**
+  **A desktop interface for exploring a lightweight, dataset-derived diabetes risk indicator.**
 
   Built with Python and Tkinter—no third-party runtime packages required.
 </div>
-
-> [!IMPORTANT]
-> This project is an educational demonstration. Its output is **not a medical diagnosis**, does not rule diabetes in or out, and should not be used to make health decisions. Consult a qualified clinician for medical testing and advice.
 
 ## Features
 
