@@ -1,6 +1,7 @@
 <div align="center">
   <img src="assets/diabetes-predictor-256.png" alt="Diabetes Predictor icon" width="112">
 </div>
+
 ## Features
 
 - Modern clinical dashboard with a responsive, scroll-safe layout
