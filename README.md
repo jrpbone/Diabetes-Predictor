@@ -2,6 +2,12 @@
   <img src="assets/diabetes-predictor-256.png" alt="Diabetes Predictor icon" width="112">
 </div>
 
+# Diabetes Predictor
+
+**A desktop interface for exploring a lightweight, dataset-derived diabetes risk indicator.**
+
+Built with Python and Tkinter—no third-party runtime packages required.
+
 ## Features
 
 - Modern clinical dashboard with a responsive, scroll-safe layout
