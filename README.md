@@ -1,13 +1,6 @@
 <div align="center">
   <img src="assets/diabetes-predictor-256.png" alt="Diabetes Predictor icon" width="112">
-
-  # Diabetes Predictor
-
-  **A desktop interface for exploring a lightweight, dataset-derived diabetes risk indicator.**
-
-  Built with Python and Tkinter—no third-party runtime packages required.
 </div>
-
 ## Features
 
 - Modern clinical dashboard with a responsive, scroll-safe layout
@@ -37,25 +30,25 @@ The included sample row is loaded into the form so the interface can be explored
 
 ### Keyboard shortcuts
 
-| Shortcut | Action |
-| --- | --- |
+| Shortcut  | Action                     |
+| --------- | -------------------------- |
 | `Enter` | Analyze the current values |
-| `Esc` | Clear the form and result |
+| `Esc`   | Clear the form and result  |
 
 ## Measurements
 
 The indicator accepts the following eight numeric values:
 
-| Measurement | Unit shown in the app |
-| --- | --- |
-| Pregnancies | count |
-| Glucose | mg/dL |
-| Blood pressure | mm Hg |
-| Skin thickness | mm |
-| Insulin | µU/mL |
-| Body mass index | kg/m² |
-| Diabetes pedigree | score |
-| Age | years |
+| Measurement       | Unit shown in the app |
+| ----------------- | --------------------- |
+| Pregnancies       | count                 |
+| Glucose           | mg/dL                 |
+| Blood pressure    | mm Hg                 |
+| Skin thickness    | mm                    |
+| Insulin           | µU/mL                |
+| Body mass index   | kg/m²                |
+| Diabetes pedigree | score                 |
+| Age               | years                 |
 
 ## How the indicator works
 
